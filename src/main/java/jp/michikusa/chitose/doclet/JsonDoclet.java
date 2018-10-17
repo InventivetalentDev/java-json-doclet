@@ -1,23 +1,12 @@
 package jp.michikusa.chitose.doclet;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.sun.javadoc.ClassDoc;
-import com.sun.javadoc.ConstructorDoc;
-import com.sun.javadoc.FieldDoc;
-import com.sun.javadoc.LanguageVersion;
-import com.sun.javadoc.MethodDoc;
-import com.sun.javadoc.ParamTag;
-import com.sun.javadoc.Parameter;
-import com.sun.javadoc.RootDoc;
-import com.sun.javadoc.SeeTag;
-import com.sun.javadoc.Tag;
-import com.sun.javadoc.ThrowsTag;
-import com.sun.javadoc.Type;
+import com.sun.javadoc.*;
+
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Doclet implementation for javadoc command.
@@ -111,6 +100,9 @@ public class JsonDoclet
         }
         g.writeObjectField("superclass", (doc.superclassType() != null) ? doc.superclassType().qualifiedTypeName() : "");
         g.writeObjectField("comment_text", doc.commentText());
+        g.writeObjectField("isAbstract", doc.isAbstract());
+        g.writeObjectField("isInterface", doc.isInterface());
+        g.writeObjectField("isEnum", doc.isEnum());
         {
             final Tag tag = get(doc.tags("since"), 0);
 
@@ -152,6 +144,16 @@ public class JsonDoclet
             for(final MethodDoc methodDoc : doc.methods())
             {
                 writeMethod(g, methodDoc);
+            }
+
+            g.writeEndArray();
+        }
+        {
+            g.writeArrayFieldStart("enumConstants");
+
+            for(final FieldDoc fieldDoc : doc.enumConstants())
+            {
+                g.writeString(fieldDoc.name());
             }
 
             g.writeEndArray();
