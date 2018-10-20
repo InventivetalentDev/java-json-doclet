@@ -216,6 +216,7 @@ public class JsonDoclet
         g.writeObjectField("name", parameter.name());
         g.writeObjectField("comment_text", (tag != null) ? tag.parameterComment() : "");
         g.writeObjectField("type", parameter.type().qualifiedTypeName());
+        g.writeObjectField("type_dimension", parameter.type().dimension());
 
         g.writeEndObject();
     }
@@ -228,6 +229,7 @@ public class JsonDoclet
         g.writeObjectField("name", doc.name());
         g.writeObjectField("comment_text", doc.commentText());
         g.writeObjectField("type", doc.type().qualifiedTypeName());
+        g.writeObjectField("type_dimension",doc.type().dimension());
 
         g.writeEndObject();
     }
@@ -240,6 +242,7 @@ public class JsonDoclet
         g.writeObjectField("name", doc.name());
         g.writeObjectField("comment_text", doc.commentText());
         g.writeObjectField("return_type", doc.returnType().qualifiedTypeName());
+        g.writeObjectField("return_type_dimension", doc.returnType().dimension());
         {
             g.writeArrayFieldStart("parameters");
 
